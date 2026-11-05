@@ -10,4 +10,38 @@ datasource db {
   provider = "postgresql"
 }
 
-// TODO: Quiz, Question, Option models
+enum AnswerType {
+  INPUT
+  CHECKBOX
+  BOOLEAN
+}
+
+model Quiz {
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  title     String
+  questions Question[]
+}
+
+model Option {
+  id         String   @id @default(uuid())
+  text       String
+  isCorrect  Boolean
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([questionId])
+}
+
+model Question {
+  id         String     @id @default(uuid())
+  order      Int
+  answerType AnswerType
+  text       String
+  createdAt  DateTime   @default(now())
+  quizId     String
+  quiz       Quiz       @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  options    Option[]
+
+  @@index([quizId, order])
+}
