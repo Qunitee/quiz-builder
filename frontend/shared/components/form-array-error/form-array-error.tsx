@@ -26,5 +26,9 @@ export function FormArrayError<T extends FieldValues>({
   const { errors } = useFormState({ control, name });
   const error = get(errors, name) as ArrayError | undefined;
 
-  return <FieldError>{error?.root?.message ?? error?.message}</FieldError>;
+  return (
+    <FieldError tabIndex={-1}>
+      {error?.root?.message ?? error?.message}
+    </FieldError>
+  );
 }

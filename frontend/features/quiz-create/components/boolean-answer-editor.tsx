@@ -1,7 +1,7 @@
 'use client';
 
 import { useId } from 'react';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useFormContext, useFormState, useWatch } from 'react-hook-form';
 import type { CreateQuizDto } from '@/entities/quiz/schemas/create-quiz.schema';
 import { FormArrayError } from '@/shared/components/form-array-error/form-array-error';
 import {
@@ -17,10 +17,13 @@ interface BooleanAnswerEditorProps {
 export function BooleanAnswerEditor({
   questionIndex,
 }: BooleanAnswerEditorProps) {
-  const { control, setValue, clearErrors } = useFormContext<CreateQuizDto>();
+  const { control, setValue, clearErrors, getFieldState } =
+    useFormContext<CreateQuizDto>();
   const groupId = useId();
   const name = `questions.${questionIndex}.options` as const;
   const options = useWatch({ control, name });
+  const formState = useFormState({ control, name });
+  const { invalid } = getFieldState(name, formState);
 
   const selectAnswer = (text: string) => {
     setValue(
@@ -46,7 +49,11 @@ export function BooleanAnswerEditor({
 
           return (
             <div key={option.text} className="flex items-center gap-2">
-              <UiRadioGroupItem id={itemId} value={option.text} />
+              <UiRadioGroupItem
+                id={itemId}
+                value={option.text}
+                aria-invalid={invalid}
+              />
               <UiLabel htmlFor={itemId}>{option.text}</UiLabel>
             </div>
           );
