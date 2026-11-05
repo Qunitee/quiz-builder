@@ -1,0 +1,10 @@
+.state-message-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 9999px;
+  background-color: rgb(var(--accent-soft));
+  color: rgb(var(--accent-soft-fg));
+}

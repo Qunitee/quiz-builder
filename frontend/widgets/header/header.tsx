@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AppRoutes } from '@/shared/constants/app-routes.constant';
-import { cn } from '@/shared/utils/utils';
 import { ThemeToggle } from '@/widgets/header/theme-toggle';
+import './styles/header.scss';
 
 const NavLinks = [
   { href: AppRoutes.Quizzes, label: 'Quizzes' },
@@ -25,12 +25,8 @@ export function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={cn(
-                'rounded-md px-2 py-1 transition-colors hover:text-foreground',
-                pathname === link.href
-                  ? 'font-medium text-foreground'
-                  : 'text-muted-foreground',
-              )}
+              className="header-link"
+              aria-current={pathname === link.href ? 'page' : undefined}
             >
               {link.label}
             </Link>

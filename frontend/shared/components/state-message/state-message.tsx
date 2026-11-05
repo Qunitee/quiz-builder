@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react';
 import { type IconName, UiIcon } from '@/shared/ui/ui-icon/ui-icon';
+import './styles/state-message.scss';
 
 interface StateMessageProps {
   icon: IconName;
@@ -18,7 +19,7 @@ export function StateMessage({
 }: StateMessageProps) {
   return (
     <div className="flex flex-col items-center gap-3 px-4 py-16 text-center">
-      <span className="flex size-14 items-center justify-center rounded-full bg-accent-soft text-accent-soft-fg">
+      <span className="state-message-icon">
         <UiIcon name={icon} size="xl" aria-hidden />
       </span>
       <div className="flex flex-col gap-1">
