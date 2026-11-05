@@ -49,4 +49,3 @@ npm run lint
 npm run format:check
 ```
 
-<!-- TODO: API endpoints, how to create a sample quiz, data model and decisions -->
