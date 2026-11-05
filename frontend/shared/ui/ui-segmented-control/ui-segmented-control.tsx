@@ -4,6 +4,7 @@ import * as React from 'react';
 import { RadioGroup as RadioGroupPrimitive } from 'radix-ui';
 import { UiIcon, type IconName } from '@/shared/ui/ui-icon/ui-icon';
 import { cn } from '@/shared/utils/utils';
+import './styles/ui-segmented-control.scss';
 
 export interface UiSegmentedOption<T extends string> {
   value: T;
@@ -32,10 +33,7 @@ export function UiSegmentedControl<T extends string>({
       data-slot="segmented-control"
       value={value}
       onValueChange={(next) => onValueChange(next as T)}
-      className={cn(
-        'grid auto-cols-fr grid-flow-col gap-1 rounded-lg bg-muted p-1',
-        className,
-      )}
+      className={cn('segmented-control', className)}
       {...props}
     >
       {options.map((option) => (
@@ -43,12 +41,7 @@ export function UiSegmentedControl<T extends string>({
           key={option.value}
           value={option.value}
           data-slot="segmented-control-item"
-          className={cn(
-            'flex min-w-0 flex-col items-center justify-center gap-1 rounded-md px-1 py-1.5 text-xs font-medium sm:flex-row sm:gap-2 sm:px-2 sm:text-sm',
-            'cursor-pointer text-muted-foreground outline-none transition-colors hover:text-foreground',
-            'focus-visible:ring-3 focus-visible:ring-ring/50',
-            'data-[state=checked]:bg-card data-[state=checked]:text-foreground data-[state=checked]:shadow-sm',
-          )}
+          className="segmented-control-item"
         >
           {option.icon && <UiIcon name={option.icon} aria-hidden />}
           <span className="max-w-full truncate">{option.label}</span>

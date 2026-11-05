@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Checkbox as CheckboxPrimitive } from 'radix-ui';
 import { CheckIcon } from 'lucide-react';
 import { cn } from '@/shared/utils/utils';
+import './styles/ui-checkbox.scss';
 
 function UiCheckbox({
   className,
@@ -12,14 +13,7 @@ function UiCheckbox({
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"
-      className={cn(
-        'peer size-4 shrink-0 rounded-[4px] border border-input bg-card outline-none transition-colors',
-        'focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50',
-        'disabled:cursor-not-allowed disabled:opacity-50',
-        'aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20',
-        'data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground',
-        className,
-      )}
+      className={cn('peer checkbox', className)}
       {...props}
     >
       <CheckboxPrimitive.Indicator

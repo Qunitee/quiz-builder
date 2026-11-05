@@ -1,0 +1,11 @@
+@use '../../../styles/mixins/form-control-mixin' as *;
+
+.radio-group-item {
+  border-radius: 9999px;
+
+  @include form-control;
+
+  &[data-state='checked'] {
+    border-color: rgb(var(--primary));
+  }
+}
