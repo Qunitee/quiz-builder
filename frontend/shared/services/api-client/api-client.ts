@@ -1,4 +1,6 @@
-const ApiUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
+const ApiUrl = (
+  process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001'
+).replace(/\/+$/, '');
 
 export interface ApiFieldError {
   path: string;
@@ -40,9 +42,11 @@ export async function apiRequest<T>(
 
   if (!res.ok) {
     const body = (await res.json().catch(() => null)) as ErrorBody;
-    const message = Array.isArray(body?.message)
+    const bodyMessage = Array.isArray(body?.message)
       ? body.message.join(', ')
-      : (body?.message ?? res.statusText);
+      : body?.message;
+    const message =
+      bodyMessage || res.statusText || `Request failed (${res.status})`;
     throw new ApiError(res.status, message, body?.errors);
   }
 
