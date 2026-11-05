@@ -1,4 +1,5 @@
+import { QuizListScreen } from '@/features/quiz-list/quiz-list-screen';
+
 export default function QuizzesPage() {
-  // TODO: fetch GET /quizzes, show title + number of questions, link, delete icon
-  return <h1 className="text-2xl font-semibold">Quizzes</h1>;
+  return <QuizListScreen />;
 }
