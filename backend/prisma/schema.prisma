@@ -25,12 +25,13 @@ model Quiz {
 
 model Option {
   id         String   @id @default(uuid())
+  order      Int
   text       String
   isCorrect  Boolean
   questionId String
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
-  @@index([questionId])
+  @@index([questionId, order])
 }
 
 model Question {

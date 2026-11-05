@@ -13,6 +13,7 @@ CREATE TABLE "Quiz" (
 -- CreateTable
 CREATE TABLE "Option" (
     "id" TEXT NOT NULL,
+    "order" INTEGER NOT NULL,
     "text" TEXT NOT NULL,
     "isCorrect" BOOLEAN NOT NULL,
     "questionId" TEXT NOT NULL,
@@ -33,7 +34,7 @@ CREATE TABLE "Question" (
 );
 
 -- CreateIndex
-CREATE INDEX "Option_questionId_idx" ON "Option"("questionId");
+CREATE INDEX "Option_questionId_order_idx" ON "Option"("questionId", "order");
 
 -- CreateIndex
 CREATE INDEX "Question_quizId_order_idx" ON "Question"("quizId", "order");
