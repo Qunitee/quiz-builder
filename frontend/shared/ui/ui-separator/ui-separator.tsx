@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Separator as SeparatorPrimitive } from 'radix-ui';
 import { cn } from '@/shared/utils/utils';
+import './styles/ui-separator.scss';
 
 function UiSeparator({
   className,
@@ -15,10 +16,7 @@ function UiSeparator({
       data-slot="separator"
       decorative={decorative}
       orientation={orientation}
-      className={cn(
-        'shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch',
-        className,
-      )}
+      className={cn('separator', className)}
       {...props}
     />
   );

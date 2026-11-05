@@ -1,0 +1,13 @@
+@use '../../../styles/mixins/form-control-mixin' as *;
+
+.checkbox {
+  border-radius: 4px;
+
+  @include form-control;
+
+  &[data-state='checked'] {
+    border-color: rgb(var(--primary));
+    background-color: rgb(var(--primary));
+    color: rgb(var(--primary-foreground));
+  }
+}

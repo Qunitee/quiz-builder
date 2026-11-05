@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { RadioGroup as RadioGroupPrimitive } from 'radix-ui';
 import { cn } from '@/shared/utils/utils';
+import './styles/ui-radio-group.scss';
 
 function UiRadioGroup({
   className,
@@ -24,14 +25,7 @@ function UiRadioGroupItem({
   return (
     <RadioGroupPrimitive.Item
       data-slot="radio-group-item"
-      className={cn(
-        'peer aspect-square size-4 shrink-0 rounded-full border border-input bg-card outline-none transition-colors',
-        'focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50',
-        'disabled:cursor-not-allowed disabled:opacity-50',
-        'aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20',
-        'data-[state=checked]:border-primary',
-        className,
-      )}
+      className={cn('peer radio-group-item', className)}
       {...props}
     >
       <RadioGroupPrimitive.Indicator

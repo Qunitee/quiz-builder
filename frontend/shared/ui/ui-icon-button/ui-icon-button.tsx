@@ -30,7 +30,7 @@ export function UiIconButton({
         'button',
         `button--${variant}`,
         `button--size-${size}`,
-        'aspect-square px-0',
+        'button--icon',
         className,
       )}
       {...props}

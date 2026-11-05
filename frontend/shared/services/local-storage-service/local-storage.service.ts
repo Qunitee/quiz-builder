@@ -8,10 +8,6 @@ const isBrowser = typeof window !== 'undefined';
 export class LocalStorageService {
   private readonly listeners = new Map<string, Set<Listener<unknown>>>();
 
-  private prefixedKey(token: string): string {
-    return `${LocalStoragePrefix}-${token}`;
-  }
-
   getItem<T>(token: string): T | null {
     if (!isBrowser) return null;
     const result = localStorage.getItem(this.prefixedKey(token));
@@ -40,17 +36,6 @@ export class LocalStorageService {
     return !isEmpty(localStorage.getItem(this.prefixedKey(token)));
   }
 
-  private notify<T>(token: string, value: T | null): void {
-    const key = this.prefixedKey(token);
-    const set = this.listeners.get(key);
-    if (!set) return;
-    set.forEach((listener) => listener(value));
-  }
-
-  /**
-   * Подписка на изменения ключа (в этой вкладке И между вкладками).
-   * Возвращает функцию отписки — передавай прямо в cleanup useEffect.
-   */
   subscribe<T>(token: string, listener: Listener<T>): () => void {
     const key = this.prefixedKey(token);
 
@@ -79,6 +64,17 @@ export class LocalStorageService {
         this.listeners.delete(key);
       }
     };
+  }
+
+  private prefixedKey(token: string): string {
+    return `${LocalStoragePrefix}-${token}`;
+  }
+
+  private notify<T>(token: string, value: T | null): void {
+    const key = this.prefixedKey(token);
+    const set = this.listeners.get(key);
+    if (!set) return;
+    set.forEach((listener) => listener(value));
   }
 }
 

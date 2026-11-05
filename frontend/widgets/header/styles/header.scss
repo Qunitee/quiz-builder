@@ -1,0 +1,15 @@
+.header-link {
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-md);
+  color: rgb(var(--muted-foreground));
+  transition: color var(--duration-fast) var(--ease-out);
+
+  &:hover {
+    color: rgb(var(--foreground));
+  }
+
+  &[aria-current='page'] {
+    color: rgb(var(--foreground));
+    font-weight: 500;
+  }
+}
