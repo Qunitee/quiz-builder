@@ -10,7 +10,7 @@ import { getErrorMessage } from '@/shared/utils/get-error-message.util';
 interface QueryStateHandlerProps<T> {
   query: Pick<
     UseQueryResult<T>,
-    'data' | 'error' | 'isPending' | 'isFetching' | 'refetch'
+    'data' | 'error' | 'isPending' | 'isFetching' | 'isRefetchError' | 'refetch'
   >;
   isEmpty?: (data: T) => boolean;
   emptyState?: ReactNode;
@@ -23,10 +23,37 @@ export function QueryStateHandler<T>({
   emptyState,
   children,
 }: QueryStateHandlerProps<T>) {
-  const { data, error, isPending, isFetching, refetch } = query;
+  const { data, error, isPending, isFetching, isRefetchError, refetch } = query;
+
+  const retryButton = (
+    <UiButton
+      type="button"
+      variant="outline"
+      size="sm"
+      disabled={isFetching}
+      onClick={() => refetch()}
+    >
+      Try again
+    </UiButton>
+  );
 
   if (data !== undefined) {
-    return isEmpty?.(data) ? emptyState : children(data);
+    return (
+      <>
+        {isRefetchError && (
+          <div
+            role="alert"
+            className="flex flex-wrap items-center justify-between gap-3"
+          >
+            <p className="text-sm text-destructive">
+              Could not refresh: {getErrorMessage(error)}
+            </p>
+            {retryButton}
+          </div>
+        )}
+        {isEmpty?.(data) ? emptyState : children(data)}
+      </>
+    );
   }
 
   if (isPending) {
@@ -43,15 +70,7 @@ export function QueryStateHandler<T>({
       title="Could not load data"
       description={getErrorMessage(error)}
     >
-      <UiButton
-        type="button"
-        variant="outline"
-        size="sm"
-        disabled={isFetching}
-        onClick={() => refetch()}
-      >
-        Try again
-      </UiButton>
+      {retryButton}
     </StateMessage>
   );
 }
