@@ -1,13 +1,27 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  ParseUUIDPipe,
+  Post,
+} from '@nestjs/common';
+import { ZodValidationPipe } from '../common/pipes/zod-validation.pipe';
+import { createQuizSchema } from './dto/create-quiz.schema';
+import type { CreateQuizDto } from './dto/create-quiz.schema';
 import { QuizzesService } from './quizzes.service';
-import { CreateQuizSchema } from './dto/create-quiz.schema';
 
 @Controller('quizzes')
 export class QuizzesController {
   constructor(private readonly quizzesService: QuizzesService) {}
 
   @Post()
-  create(@Body() createQuizDto: CreateQuizSchema) {
+  create(
+    @Body(new ZodValidationPipe(createQuizSchema)) createQuizDto: CreateQuizDto,
+  ) {
     return this.quizzesService.create(createQuizDto);
   }
 
@@ -17,12 +31,13 @@ export class QuizzesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.quizzesService.findOne(+id);
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.quizzesService.findOne(id);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.quizzesService.remove(+id);
+  @HttpCode(HttpStatus.NO_CONTENT)
+  remove(@Param('id', ParseUUIDPipe) id: string) {
+    return this.quizzesService.remove(id);
   }
 }
