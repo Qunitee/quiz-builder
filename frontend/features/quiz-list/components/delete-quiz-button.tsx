@@ -9,9 +9,10 @@ import { getErrorMessage } from '@/shared/utils/get-error-message.util';
 
 interface DeleteQuizButtonProps {
   quiz: QuizSummary;
+  onDeleted: () => void;
 }
 
-export function DeleteQuizButton({ quiz }: DeleteQuizButtonProps) {
+export function DeleteQuizButton({ quiz, onDeleted }: DeleteQuizButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const deleteQuiz = useDeleteQuiz();
 
@@ -19,6 +20,10 @@ export function DeleteQuizButton({ quiz }: DeleteQuizButtonProps) {
     if (deleteQuiz.isPending) return;
     deleteQuiz.reset();
     setIsOpen(open);
+  };
+
+  const confirmDelete = () => {
+    deleteQuiz.mutateAsync(quiz.id).then(onDeleted, () => undefined);
   };
 
   return (
@@ -39,7 +44,7 @@ export function DeleteQuizButton({ quiz }: DeleteQuizButtonProps) {
       errorMessage={
         deleteQuiz.isError ? getErrorMessage(deleteQuiz.error) : undefined
       }
-      onConfirm={() => deleteQuiz.mutate(quiz.id)}
+      onConfirm={confirmDelete}
       onOpenChange={handleOpenChange}
     />
   );
